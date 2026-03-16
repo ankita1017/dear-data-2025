@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year in Review | 2025</title>
+
+  <!-- Open Graph — for link previews on Instagram, Substack, etc. -->
+  <meta property="og:title" content="Year in Review | 2025">
+  <meta property="og:description" content="A hand-drawn data portrait of my year — the things that brought joy, took time, and disrupted the pattern.">
+  <meta property="og:image" content="dataviz_2025_final.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Year in Review | 2025">
+  <meta name="twitter:description" content="A hand-drawn data portrait of my year — the things that brought joy, took time, and disrupted the pattern.">
+  <meta name="twitter:image" content="dataviz_2025_final.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Newsreader', Georgia, serif;
+      background-color: rgb(250, 249, 247);
+      color: rgb(45, 45, 45);
+      -webkit-font-smoothing: antialiased;
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .hero {
+      padding: 70px 0 50px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: rgb(45, 45, 45);
+      margin-bottom: 0;
+      line-height: 1.15;
+    }
+
+    .hero .year-tag {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #5B4AE8;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    /* Prose */
+    .prose { margin-bottom: 40px; }
+    .prose p { margin-bottom: 20px; }
+
+    .prose a {
+      color: #5B4AE8;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .prose blockquote {
+      border-left: 3px solid #5B4AE8;
+      padding: 2px 0 2px 24px;
+      margin: 30px 0;
+      font-style: italic;
+      color: #555;
+    }
+
+    .prose blockquote cite {
+      display: block;
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+      font-style: normal;
+    }
+
+    /* Viz section */
+    .viz-section {
+      width: 100%;
+      max-width: 1000px;
+      margin: 50px auto 30px;
+      padding: 0 24px;
+    }
+
+    .viz-label {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b8b0a8;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .viz-hint {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.78rem;
+      color: #c8c0b8;
+      text-align: center;
+      margin-bottom: 14px;
+      font-style: italic;
+      transition: opacity 0.6s;
+    }
+    .viz-hint.hidden { opacity: 0; }
+
+    .viz-wrapper {
+      position: relative;
+      background: rgb(242, 241, 239);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+    }
+
+    .viz-wrapper img.viz-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* Hotspot overlay */
+    .hotspots-layer { position: absolute; }
+
+    .hotspot {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .hotspot-dot {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: rgba(91, 74, 232, 0.4);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.6; transform: translate(-50%, -50%) scale(2); }
+    }
+
+    /* Tooltip — compact: image + number only */
+    .tooltip {
+      position: absolute;
+      background: rgb(250, 249, 247);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 10px;
+      width: 180px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+      z-index: 100;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tooltip-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tooltip-body {
+      padding: 10px 14px 12px;
+    }
+
+    .tooltip-name {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: #5B4AE8;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .tooltip-value {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: rgb(45, 45, 45);
+      line-height: 1.2;
+    }
+
+    /* Legend */
+    .legend-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px 24px 10px;
+    }
+
+    .legend-header {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b8b0a8;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legend-item .li-symbol {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+    }
+
+    .legend-item .li-text {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.78rem;
+      color: #666;
+      line-height: 1.35;
+    }
+
+    .legend-item .li-text strong { color: #2d2d2d; font-weight: 600; }
+
+    .legend-item .li-straight { width: 50px; height: 2px; background: #2d2d2d; }
+
+    .legend-item .li-color-seg {
+      width: 50px; height: 5px; border-radius: 3px;
+      background: linear-gradient(90deg, #e8c840 0%, #e8c840 30%, #d94f5c 30%, #d94f5c 70%, #e8c840 70%, #e8c840 100%);
+    }
+
+    .legend-item .li-wash { width: 50px; height: 5px; border-radius: 3px; background: #e8c840; opacity: 0.5; }
+
+    .legend-item .li-circles { display: flex; gap: 3px; }
+    .legend-item .li-circles span { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #2d2d2d; display: block; }
+
+    .legend-colors {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 6px 20px; max-width: 900px; margin: 20px auto 0;
+      padding-top: 16px; border-top: 1px solid #eae7e0;
+    }
+
+    .legend-color-item { display: flex; align-items: center; gap: 6px; }
+    .legend-color-item .lc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-color-item .lc-text { font-family: 'Figtree', sans-serif; font-size: 0.72rem; color: #888; }
+    .legend-color-item .lc-text strong { color: #555; font-weight: 600; }
+
+    /* Topic sections */
+    .topic {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .topic:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .topic-img {
+      width: 220px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .topic-text {
+      flex: 1;
+    }
+
+    .topic-label {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: #5B4AE8;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .topic-value {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgb(45, 45, 45);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .topic-body {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .topics-header {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b8b0a8;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .topic, .topic:nth-child(even) {
+        flex-direction: column;
+      }
+      .topic-img {
+        width: 100%;
+        height: 180px;
+      }
+    }
+
+    /* Separator */
+    .sep { width: 40px; height: 2px; background: #ddd; margin: 50px auto; border-radius: 1px; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px 60px;
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+
+    /* Mobile */
+    @media (hover: none) {
+      .hotspot-dot { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      body { font-size: 17px; }
+      .hero { padding: 45px 0 35px; }
+      .hero h1 { font-size: 2.2rem; }
+      .tooltip { width: 150px; }
+      .tooltip-img { height: 80px; }
+      .tooltip-value { font-size: 1.1rem; }
+      .legend-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 20px; }
+      .legend-colors { gap: 6px 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .legend-grid { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <div class="container">
+    <div class="hero">
+      <div class="year-tag">2025</div>
+      <h1>Year in Review</h1>
+    </div>
+  </div>
+
+  <!-- ===== INTRO ===== -->
+  <div class="container">
+    <div class="prose">
+      <p>Time appears hazy and mushy when I try to recall it. <em>Did I do it in 2024 or 2025?</em> &mdash; is a question that takes maximum time to figure out, when I write my year in review. Photographs in my phone turned out to be a reliable source and made me less guilty of clicking them &mdash; a post workout selfie in an auto, or photo of a book that I read. It&rsquo;s all data, pictorial notes.</p>
+
+      <p>When I look back, it is so hard to not measure. Measuring is not a bad thing, but it does not have to be linear &mdash; like where you were before and after, how close to your version of better. Mary Oliver&rsquo;s benchmarks for life were simpler &mdash; <em>pay attention, be astonished, and tell about it.</em> I did a fair bit of the first two, but not much of the telling. Because, I often find these observations too personal, or out of context for the reader, or like unsolicited learnings.</p>
+
+      <p>In this year in review, writing and sharing these observations serve another purpose &mdash; A treat to my mind that etches to sum all parts and moments into a whole, to create a singular picture. Our brain favors the whole [1].</p>
+
+      <p>I have fought hard with myself to not make it a scorecard, or checklist, but a mosaic of all aimless curiosities, that disrupted the pattern. They feel random at the start, but give lasting joy of crossing the unknown.</p>
+
+      <p>Last year, I tried very little new things but those tiny deviations are the ones that stuck. Joining a group strength class, doing a fiction writing workshop at MAP, hosting friends and not just family at my home, doing physical puzzles instead of just usual NYT crosswords or Wordles.</p>
+
+      <p>Here is a data portrait of my entire year. Each line represents activities that give me joy, and also take up most of the days in the year.</p>
+    </div>
+  </div>
+
+  <!-- ===== THE VIZ (interactive) ===== -->
+  <div class="viz-section">
+    <div class="viz-label">The Data Portrait</div>
+    <div class="viz-hint" id="hint">hover over the lines to explore each dimension</div>
+    <div class="viz-wrapper" id="viz-wrapper">
+      <img class="viz-img" src="dataviz_2025_final.png" alt="Hand-drawn year in review data visualization for 2025" id="viz-img">
+      <div class="hotspots-layer" id="hotspots"></div>
+    </div>
+  </div>
+
+  <!-- ===== LEGEND ===== -->
+  <div class="legend-section">
+    <div class="legend-header">How to Read This</div>
+    <div class="legend-grid">
+
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="24" height="14" viewBox="0 0 24 14" fill="none">
+            <path d="M2 2 Q12 14, 22 6" stroke="#2d2d2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Short:</strong> less than 20</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="40" height="14" viewBox="0 0 40 14" fill="none">
+            <path d="M2 2 Q20 14, 38 6" stroke="#2d2d2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Medium:</strong> 20 to 100</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="50" height="14" viewBox="0 0 50 14" fill="none">
+            <path d="M2 2 Q25 14, 48 6" stroke="#2d2d2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Long:</strong> more than 100</div>
+      </div>
+
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="22" height="26" viewBox="0 0 22 26" fill="none">
+            <line x1="11" y1="14" x2="11" y2="4" stroke="#2d2d2d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="11" y1="14" x2="5" y2="6" stroke="#2d2d2d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="11" y1="14" x2="17" y2="6" stroke="#2d2d2d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="11" y1="14" x2="3" y2="11" stroke="#2d2d2d" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="11" y1="14" x2="19" y2="11" stroke="#2d2d2d" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="11" y1="14" x2="11" y2="26" stroke="#2d2d2d" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Spark at tip:</strong> more than 200</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="50" height="12" viewBox="0 0 50 12" fill="none">
+            <path d="M0 6 C4 2, 8 10, 12 6 C16 2, 20 10, 24 6 C28 2, 32 10, 36 6 C40 2, 44 10, 48 6" stroke="#2d2d2d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Wavy:</strong> number of days</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol"><div class="li-straight"></div></div>
+        <div class="li-text"><strong>Straight:</strong> simple count</div>
+      </div>
+
+      <div class="legend-item">
+        <div class="li-symbol">
+          <svg width="50" height="6" viewBox="0 0 50 6" fill="none">
+            <line x1="0" y1="3" x2="8" y2="3" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="13" cy="3" r="1.5" fill="#2d2d2d"/>
+            <line x1="18" y1="3" x2="26" y2="3" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="31" cy="3" r="1.5" fill="#2d2d2d"/>
+            <line x1="36" y1="3" x2="44" y2="3" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="49" cy="3" r="1.5" fill="#2d2d2d"/>
+          </svg>
+        </div>
+        <div class="li-text"><strong>Dash-dot:</strong> outside the usual pattern</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol"><div class="li-color-seg"></div></div>
+        <div class="li-text"><strong>Color:</strong> outside the usual pattern</div>
+      </div>
+      <div class="legend-item">
+        <div class="li-symbol"><div class="li-wash"></div></div>
+        <div class="li-text"><strong>Yellow wash:</strong> the routine</div>
+      </div>
+
+      <div class="legend-item">
+        <div class="li-symbol li-circles">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="li-text"><strong>Circles:</strong> each is a genre I read</div>
+      </div>
+
+    </div>
+
+    <div class="legend-colors">
+      <div class="legend-color-item">
+        <div class="lc-dot" style="background: #1a3a5c;"></div>
+        <div class="lc-text"><strong>Exercise:</strong> MyThirdSpace</div>
+      </div>
+      <div class="legend-color-item">
+        <div class="lc-dot" style="background: #d94f3a;"></div>
+        <div class="lc-text"><strong>Puzzles:</strong> jigsaw, LEGOs</div>
+      </div>
+      <div class="legend-color-item">
+        <div class="lc-dot" style="background: #c44d72;"></div>
+        <div class="lc-text"><strong>Loved Ones:</strong> hosting friends</div>
+      </div>
+      <div class="legend-color-item">
+        <div class="lc-dot" style="background: #7a2032;"></div>
+        <div class="lc-text"><strong>Vacation:</strong> new locations</div>
+      </div>
+      <div class="legend-color-item">
+        <div class="lc-dot" style="background: #1a6b3a;"></div>
+        <div class="lc-text"><strong>Writing:</strong> first travel blog</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ===== TOPIC SECTIONS ===== -->
+  <div class="container">
+    <div class="topics-header">The Lines, Up Close</div>
+
+    <!-- Day Job -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_dayJob.png" alt="Day Job">
+      <div class="topic-text">
+        <div class="topic-label">Day Job</div>
+        <div class="topic-value">220 Days</div>
+        <p class="topic-body">Doing a roadmap + vision demo for our CPO. Building Ask Clari.</p>
+      </div>
+    </div>
+
+    <!-- Exercise -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_exercise.jpeg" alt="Exercise">
+      <div class="topic-text">
+        <div class="topic-label">Exercise</div>
+        <div class="topic-value">70 Days</div>
+        <p class="topic-body">35 days at MyThirdSpace. 50 kms running. 11 days of outdoor sports like swimming, badminton, and cycling. Joined MyThirdSpace for group strength and training exercises, lifting low to medium weights. It was so hard initially to push myself, post work, to get ready and workout with mostly women who were so much better and at ease with lifting weights than me. But gradually I started feeling activated, and looked forward to going again.</p>
+      </div>
+    </div>
+
+    <!-- Puzzles -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_puzzle.jpeg" alt="Puzzles">
+      <div class="topic-text">
+        <div class="topic-label">Puzzles</div>
+        <div class="topic-value">740 Puzzles</div>
+        <p class="topic-body">204 Wordles. 200 mini crosswords and NYT puzzles. A newfound love for physical puzzles &mdash; building the F1 Ferrari Lego was super absorbing. I was so intrigued by their art of designing each piece.</p>
+      </div>
+    </div>
+
+    <!-- Reading -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_reading.jpeg" alt="Reading">
+      <div class="topic-text">
+        <div class="topic-label">Reading</div>
+        <div class="topic-value">15 Books</div>
+        <p class="topic-body">Read 6 different types &mdash; fiction, sci-fi, Indian authors, translated from local language to English, non-fiction, and short stories.</p>
+      </div>
+    </div>
+
+    <!-- Writing -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_writing.png" alt="Writing">
+      <div class="topic-text">
+        <div class="topic-label">Writing</div>
+        <div class="topic-value">74 Pages + 1 Blog</div>
+        <p class="topic-body">Writing and editing the travel blog was excruciatingly long because I wanted to be perfect rather than done.</p>
+      </div>
+    </div>
+
+    <!-- Vacation -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_vacation.jpeg" alt="Vacation">
+      <div class="topic-text">
+        <div class="topic-label">Vacation</div>
+        <div class="topic-value">28 Days</div>
+        <p class="topic-body">Swimming in Koh Samui beaches, and travelling by train to Hampi were two unforgettable experiences.</p>
+      </div>
+    </div>
+
+    <!-- Loved Ones -->
+    <div class="topic">
+      <div class="topic-text">
+        <div class="topic-label">Loved Ones</div>
+        <div class="topic-value">104 Days</div>
+        <p class="topic-body">I am always more comfortable with family than friends. I also have very few friends. Hence made an effort to meet, stay and spend time with them, and build new bonds.</p>
+      </div>
+    </div>
+
+    <!-- Walks with Akash -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_walkWithAkash.jpeg" alt="Walks with Akash">
+      <div class="topic-text">
+        <div class="topic-label">Walks with Akash</div>
+        <div class="topic-value">260 Days</div>
+        <p class="topic-body">Comforting and peaceful.</p>
+      </div>
+    </div>
+
+    <!-- Out of Comfort -->
+    <div class="topic">
+      <img class="topic-img" src="Hotspots_images/hotspot_outOfcomfort.jpeg" alt="Out of Comfort">
+      <div class="topic-text">
+        <div class="topic-label">Out of Comfort</div>
+        <div class="topic-value">4 Count</div>
+        <p class="topic-body">Reading out my fiction writing, written during a 1-hour exercise, out loud in front of strangers was scary yet so exciting.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ===== GESTALT / CLOSING ===== -->
+  <div class="container">
+    <div class="prose">
+      <p>In the next few years, I want these branches to grow longer and diversify, following my curiosities &mdash; untethered by the safety cover of life goals or objectives. New lines I haven&rsquo;t drawn yet, for things I haven&rsquo;t tried yet.</p>
+
+      <blockquote>
+        To be liberated, dive toward doubt with great eagerness, given to be surprised. Or remain ossified, a safe distance from alive.
+        <cite>&mdash; Maria Popova</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    &mdash; 2025 &mdash;
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Hotspot positions for dataviz_2025_final.png
+    // bounds: [left%, top%, width%, height%]
+    // TODO: Recalibrate these using the calibration tool in year_in_review_interactive.html
+    const hotspotData = [
+      {
+        id: 'day-job', name: 'Day Job', value: '220 Days',
+        image: 'Hotspots_images/hotspot_dayJob.png',
+        bounds: [61.5, 3, 10, 8]
+      },
+      {
+        id: 'puzzles', name: 'Puzzles', value: '740 Puzzles',
+        image: 'Hotspots_images/hotspot_puzzle.jpeg',
+        bounds: [11.5, 59.9, 10, 8]
+      },
+      {
+        id: 'exercise', name: 'Exercise', value: '70 Days',
+        image: 'Hotspots_images/hotspot_exercise.jpeg',
+        bounds: [21.3, 46.9, 10, 8]
+      },
+      {
+        id: 'reading', name: 'Reading', value: '15 Books',
+        image: 'Hotspots_images/hotspot_reading.jpeg',
+        bounds: [33.4, 36.4, 10, 8]
+      },
+      {
+        id: 'writing', name: 'Writing', value: '74 Pages + 1 Blog',
+        image: 'Hotspots_images/hotspot_writing.png',
+        bounds: [64.8, 41.3, 10, 8]
+      },
+      {
+        id: 'loved-ones', name: 'Loved Ones', value: '104 Days',
+        bounds: [69.1, 52.6, 10, 8]
+      },
+      {
+        id: 'vacation', name: 'Vacation', value: '28 Days',
+        image: 'Hotspots_images/hotspot_vacation.jpeg',
+        bounds: [59.3, 56.5, 10, 8]
+      },
+      {
+        id: 'walks-akash', name: 'Walks with Akash', value: '260 Days',
+        image: 'Hotspots_images/hotspot_walkWithAkash.jpeg',
+        bounds: [81.3, 67.1, 10, 8]
+      },
+      {
+        id: 'out-of-comfort', name: 'Out of Comfort', value: '4 Count',
+        image: 'Hotspots_images/hotspot_outOfcomfort.jpeg',
+        bounds: [35.8, 84.7, 10, 8]
+      },
+    ];
+
+    const hotspotsContainer = document.getElementById('hotspots');
+    const vizWrapper = document.getElementById('viz-wrapper');
+    const vizImg = document.getElementById('viz-img');
+    let activeTooltip = null;
+
+    function positionHotspotsLayer() {
+      const wrapperRect = vizWrapper.getBoundingClientRect();
+      const imgRendered = vizImg.getBoundingClientRect();
+      hotspotsContainer.style.left = (imgRendered.left - wrapperRect.left) + 'px';
+      hotspotsContainer.style.top = (imgRendered.top - wrapperRect.top) + 'px';
+      hotspotsContainer.style.width = imgRendered.width + 'px';
+      hotspotsContainer.style.height = imgRendered.height + 'px';
+    }
+
+    function clampTooltip(tooltip, hotspotEl) {
+      const layerW = hotspotsContainer.offsetWidth;
+      const layerH = hotspotsContainer.offsetHeight;
+      const hotLeft = hotspotEl.offsetLeft;
+      const hotTop = hotspotEl.offsetTop;
+      const hotW = hotspotEl.offsetWidth;
+      const hotH = hotspotEl.offsetHeight;
+      const tipW = 180;
+      const tipH = tooltip.offsetHeight || 170;
+      const gap = 8;
+
+      let posX, posY;
+
+      const spaceRight = layerW - (hotLeft + hotW + gap);
+      const spaceLeft = hotLeft - gap;
+
+      if (spaceRight >= tipW) {
+        posX = hotLeft + hotW + gap;
+      } else if (spaceLeft >= tipW) {
+        posX = hotLeft - tipW - gap;
+      } else {
+        posX = hotLeft + (hotW / 2) - (tipW / 2);
+        posX = Math.max(4, Math.min(posX, layerW - tipW - 4));
+      }
+
+      posY = hotTop + (hotH / 2) - (tipH / 2);
+      if (posY + tipH > layerH - 4) posY = layerH - tipH - 4;
+      if (posY < 4) posY = 4;
+
+      tooltip.style.left = posX + 'px';
+      tooltip.style.top = posY + 'px';
+    }
+
+    function createHotspots() {
+      positionHotspotsLayer();
+      hotspotsContainer.innerHTML = '';
+
+      hotspotData.forEach(data => {
+        const hotspot = document.createElement('div');
+        hotspot.className = 'hotspot';
+        hotspot.dataset.id = data.id;
+        hotspot.style.left = data.bounds[0] + '%';
+        hotspot.style.top = data.bounds[1] + '%';
+        hotspot.style.width = data.bounds[2] + '%';
+        hotspot.style.height = data.bounds[3] + '%';
+
+        const dot = document.createElement('div');
+        dot.className = 'hotspot-dot';
+        dot.style.animationDelay = (Math.random() * 2.5) + 's';
+        hotspot.appendChild(dot);
+
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.innerHTML = `
+          ${data.image ? `<img class="tooltip-img" src="${data.image}" alt="${data.name}">` : ''}
+          <div class="tooltip-body">
+            <div class="tooltip-name">${data.name}</div>
+            <div class="tooltip-value">${data.value}</div>
+          </div>
+        `;
+        hotspotsContainer.appendChild(tooltip);
+
+        hotspot.addEventListener('mouseenter', () => {
+          if (activeTooltip && activeTooltip !== tooltip) activeTooltip.classList.remove('visible');
+          tooltip.classList.add('visible');
+          activeTooltip = tooltip;
+          requestAnimationFrame(() => clampTooltip(tooltip, hotspot));
+          document.getElementById('hint').classList.add('hidden');
+        });
+
+        hotspot.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+          activeTooltip = null;
+        });
+
+        // Touch support
+        hotspot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (activeTooltip === tooltip && tooltip.classList.contains('visible')) {
+            tooltip.classList.remove('visible');
+            activeTooltip = null;
+          } else {
+            if (activeTooltip) activeTooltip.classList.remove('visible');
+            tooltip.classList.add('visible');
+            activeTooltip = tooltip;
+            requestAnimationFrame(() => clampTooltip(tooltip, hotspot));
+            document.getElementById('hint').classList.add('hidden');
+          }
+        });
+
+        hotspotsContainer.appendChild(hotspot);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (activeTooltip && !e.target.closest('.hotspot')) {
+          activeTooltip.classList.remove('visible');
+          activeTooltip = null;
+        }
+      });
+    }
+
+    function init() {
+      createHotspots();
+      window.addEventListener('resize', () => {
+        positionHotspotsLayer();
+        if (activeTooltip) { activeTooltip.classList.remove('visible'); activeTooltip = null; }
+      });
+    }
+
+    if (vizImg.complete) init();
+    else vizImg.addEventListener('load', init);
+  </script>
+
+</body>
+</html>
