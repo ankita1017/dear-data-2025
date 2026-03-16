@@ -36,7 +36,6 @@
       padding: 0 24px;
     }
 
-    /* Header */
     .hero {
       padding: 70px 0 50px;
       text-align: center;
@@ -61,7 +60,6 @@
       font-weight: 600;
     }
 
-    /* Prose */
     .prose { margin-bottom: 40px; }
     .prose p { margin-bottom: 20px; }
 
@@ -87,7 +85,6 @@
       font-style: normal;
     }
 
-    /* Viz section */
     .viz-section {
       width: 100%;
       max-width: 1000px;
@@ -131,7 +128,6 @@
       border-radius: 8px;
     }
 
-    /* Hotspot overlay */
     .hotspots-layer { position: absolute; }
 
     .hotspot {
@@ -144,7 +140,7 @@
       position: absolute;
       width: 7px;
       height: 7px;
-      background: rgba(91, 74, 232, 0.4);
+      background: rgba(91, 74, 232, 0.7);
       border-radius: 50%;
       top: 50%;
       left: 50%;
@@ -158,7 +154,6 @@
       50% { opacity: 0.6; transform: translate(-50%, -50%) scale(2); }
     }
 
-    /* Tooltip — compact: image + number only */
     .tooltip {
       position: absolute;
       background: rgb(250, 249, 247);
@@ -208,7 +203,6 @@
       line-height: 1.2;
     }
 
-    /* Legend */
     .legend-section {
       max-width: 700px;
       margin: 0 auto;
@@ -255,7 +249,6 @@
     }
 
     .legend-item .li-text strong { color: #2d2d2d; font-weight: 600; }
-
     .legend-item .li-straight { width: 50px; height: 2px; background: #2d2d2d; }
 
     .legend-item .li-color-seg {
@@ -264,7 +257,6 @@
     }
 
     .legend-item .li-wash { width: 50px; height: 5px; border-radius: 3px; background: #e8c840; opacity: 0.5; }
-
     .legend-item .li-circles { display: flex; gap: 3px; }
     .legend-item .li-circles span { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #2d2d2d; display: block; }
 
@@ -279,28 +271,8 @@
     .legend-color-item .lc-text { font-family: 'Figtree', sans-serif; font-size: 0.72rem; color: #888; }
     .legend-color-item .lc-text strong { color: #555; font-weight: 600; }
 
-    /* Topic sections */
     .topic {
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-      margin-bottom: 40px;
-    }
-
-    .topic:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-
-    .topic-img {
-      width: 220px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-
-    .topic-text {
-      flex: 1;
+      margin-bottom: 50px;
     }
 
     .topic-label {
@@ -326,6 +298,40 @@
       font-size: 0.95rem;
       color: #555;
       line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .topic-list {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 8px 0 8px 20px;
+      padding: 0;
+    }
+
+    .topic-list li {
+      margin-bottom: 4px;
+    }
+
+    .topic-images {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .topic-images img {
+      flex: 1;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 8px;
+      min-width: 0;
+    }
+
+    .topic-images.single img {
+      max-width: 100%;
+      height: 430px;
+      object-fit: cover;
+      object-position: top;
     }
 
     .topics-header {
@@ -339,19 +345,19 @@
     }
 
     @media (max-width: 600px) {
-      .topic, .topic:nth-child(even) {
+      .topic-images {
         flex-direction: column;
       }
-      .topic-img {
-        width: 100%;
+      .topic-images img {
         height: 180px;
+      }
+      .topic-images.single img {
+        max-width: 100%;
       }
     }
 
-    /* Separator */
     .sep { width: 40px; height: 2px; background: #ddd; margin: 50px auto; border-radius: 1px; }
 
-    /* Footer */
     .footer {
       text-align: center;
       padding: 40px 24px 60px;
@@ -360,7 +366,6 @@
       color: #bbb;
     }
 
-    /* Mobile */
     @media (hover: none) {
       .hotspot-dot { display: none; }
     }
@@ -383,7 +388,6 @@
 </head>
 <body>
 
-  <!-- ===== HERO ===== -->
   <div class="container">
     <div class="hero">
       <div class="year-tag">2025</div>
@@ -391,7 +395,6 @@
     </div>
   </div>
 
-  <!-- ===== INTRO ===== -->
   <div class="container">
     <div class="prose">
       <p>Time appears hazy and mushy when I try to recall it. <em>Did I do it in 2024 or 2025?</em> &mdash; is a question that takes maximum time to figure out, when I write my year in review. Photographs in my phone turned out to be a reliable source and made me less guilty of clicking them &mdash; a post workout selfie in an auto, or photo of a book that I read. It&rsquo;s all data, pictorial notes.</p>
@@ -408,7 +411,6 @@
     </div>
   </div>
 
-  <!-- ===== THE VIZ (interactive) ===== -->
   <div class="viz-section">
     <div class="viz-label">The Data Portrait</div>
     <div class="viz-hint" id="hint">hover over the lines to explore each dimension</div>
@@ -418,7 +420,6 @@
     </div>
   </div>
 
-  <!-- ===== LEGEND ===== -->
   <div class="legend-section">
     <div class="legend-header">How to Read This</div>
     <div class="legend-grid">
@@ -500,7 +501,7 @@
         <div class="li-symbol li-circles">
           <span></span><span></span><span></span><span></span>
         </div>
-        <div class="li-text"><strong>Circles:</strong> each is a genre I read</div>
+        <div class="li-text"><strong>Circles:</strong> each is a book; symbol marks genre</div>
       </div>
 
     </div>
@@ -535,55 +536,55 @@
   <div class="container">
     <div class="topics-header">Joys of the Unknown</div>
 
-    <!-- Strength Training -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_exercise.jpeg" alt="Exercise">
-      <div class="topic-text">
-        <div class="topic-label">Strength Training in a Group Class</div>
-        <div class="topic-value">70 Days</div>
-        <p class="topic-body">I joined MyThirdSpace for group strength and training exercises, lifting low to medium weights. It was so hard initially to push myself, post work, to get ready and workout with mostly women who were so much better and at ease with lifting weights than me. But gradually I started feeling activated, and looked forward to going again.</p>
-        <p class="topic-body">Arthritis and Rheumatoid arthritis has descended from my nani (maternal grandmother) to my mother. I have seen them both in unspeakable pain. Hence, lifting weights is one of the only options now to reduce my risk or impact.</p>
-        <p class="topic-body">Did strength training for 35 days at MyThirdSpace, 50 kms running, and 11 days of outdoor sports like swimming, badminton, and cycling.</p>
+      <div class="topic-label">Strength Training in a Group Class</div>
+      <div class="topic-value">70 Days</div>
+      <p class="topic-body">I joined MyThirdSpace for group strength and training exercises, lifting low to medium weights. It was so hard initially to push myself, post work, to get ready and workout with mostly women who were so much better and at ease with lifting weights than me. But gradually I started feeling activated, and looked forward to going again.</p>
+      <p class="topic-body">Arthritis and Rheumatoid arthritis has descended from my nani (maternal grandmother) to my mother. I have seen them both in unspeakable pain. Hence, lifting weights is one of the only options now to reduce my risk or impact.</p>
+      <p class="topic-body">Did strength training for 35 days at MyThirdSpace, 50 kms running, and 11 days of outdoor sports like swimming, badminton, and cycling.</p>
+      <div class="topic-images">
+        <img src="Hotspots_images/hotspot_exercise.jpeg" alt="Exercise">
+        <img src="Hotspots_images/hotspot_exercise_2.jpeg" alt="Exercise">
       </div>
     </div>
 
-    <!-- Writing -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_writing.png" alt="Writing">
-      <div class="topic-text">
-        <div class="topic-label">Two-Day Fiction-Writing Workshop</div>
-        <div class="topic-value">74 Pages + 1 Blog</div>
-        <p class="topic-body">There is something uniquely terrifying, and exhilarating, about reading your own raw, on-the-spot fiction out loud to strangers. Conducted by the editor-in-chief of Out of Print magazine, alongside an exhibition of Ram Kumar&rsquo;s writings and paintings, it was one of the most joyful things I did this year. I did not publish what I wrote, but here are the titles: <em>A Dysfunctional Friendship</em> and <em>In the Museum</em>.</p>
-        <p class="topic-body">Writing these, reading Ram Kumar&rsquo;s stories, and hearing fellow participants made one thing clear: even the most universal themes &mdash; nostalgia, love, despair, family dynamics &mdash; can hook the reader if written with a distinct personal context and style.</p>
-        <p class="topic-body">A two day fiction writing workshop conducted by Indira Chandrasekhar at Map, Bangalore.</p>
-        <p class="topic-body"><em>P.S.</em> I wrote more in my personal journal than writing publicly. I tried writing the first thing in my journal as I woke up. It really helped me stay away from my phone in the early morning hours. I only published one blog in 2025, my first travel log. Took excruciatingly long time to edit it because I wanted it to be perfect rather than done. It is so far the least read and appreciated blog on my site.</p>
+      <div class="topic-label">Two-Day Fiction-Writing Workshop</div>
+      <div class="topic-value">74 Pages + 1 Blog</div>
+      <p class="topic-body">There is something uniquely terrifying, and exhilarating, about reading your own raw, on-the-spot fiction out loud to strangers. Conducted by the editor-in-chief of Out of Print magazine, alongside an exhibition of Ram Kumar&rsquo;s writings and paintings, it was one of the most joyful things I did this year. I did not publish what I wrote, but here are the titles: <em>A Dysfunctional Friendship</em> and <em>In the Museum</em>.</p>
+      <p class="topic-body">Writing these, reading Ram Kumar&rsquo;s stories, and hearing fellow participants made one thing clear: even the most universal themes &mdash; nostalgia, love, despair, family dynamics &mdash; can hook the reader if written with a distinct personal context and style.</p>
+      <p class="topic-body">A two day fiction writing workshop conducted by Indira Chandrasekhar at Map, Bangalore.</p>
+      <p class="topic-body"><em>P.S.</em> I wrote more in my personal journal than writing publicly. I tried writing the first thing in my journal as I woke up. It really helped me stay away from my phone in the early morning hours. I only published one blog in 2025, my first travel log. Took excruciatingly long time to edit it because I wanted it to be perfect rather than done. It is so far the least read and appreciated blog on my site.</p>
+      <div class="topic-images single">
+        <img src="Hotspots_images/hotspot_writing.png" alt="Writing">
       </div>
     </div>
 
-    <!-- Reading -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_reading.jpeg" alt="Reading">
-      <div class="topic-text">
-        <div class="topic-label">Reading</div>
-        <div class="topic-value">15 Books</div>
-        <p class="topic-body">One of the most consistent acts of last year was reading each night before going to sleep. It was an unintentional ritual. Did not start because someone said it is good, did not continue just for the sake of regularity. I read the following varieties and my favourite in each:</p>
-        <p class="topic-body">Fiction &mdash; <em>Gentlemen in Moscow</em> and <em>Simple Passion</em><br>
-        Sci-fi &mdash; <em>Ted Chiang Story of your life and others</em><br>
-        Translated from native language to English &mdash; <em>Paris</em> by Gertrude Stein, and <em>the Heart Lamp</em><br>
-        Indian author &mdash; <em>Language of Immortals: A concise history of Sanskrit</em> by G.N. Devy, and <em>Ghachhar Ghochar</em> by Vivek Shanbagh<br>
-        Non-fiction &mdash; <em>Daily Rituals: Women at Work</em><br>
-        Short stories &mdash; <em>Bogombo Snuff Box</em> by Kurt Vonnegut</p>
-        <p class="topic-body">My fav. coffee table book in 2025: <em>The Making of Prince of Persia</em> by Jordan Mechner, the creator of this game and many others.</p>
+      <div class="topic-label">Reading</div>
+      <div class="topic-value">15 Books</div>
+      <p class="topic-body">One of the most consistent acts of last year was reading each night before going to sleep. It was an unintentional ritual. Did not start because someone said it is good, did not continue just for the sake of regularity. I read the following varieties and my favourite in each:</p>
+      <ul class="topic-list">
+        <li>Fiction &mdash; <em>Gentlemen in Moscow</em> and <em>Simple Passion</em></li>
+        <li>Sci-fi &mdash; <em>Ted Chiang Story of your life and others</em></li>
+        <li>Translated from native language to English &mdash; <em>Paris</em> by Gertrude Stein, and <em>the Heart Lamp</em></li>
+        <li>Indian author &mdash; <em>Language of Immortals: A concise history of Sanskrit</em> by G.N. Devy, and <em>Ghachhar Ghochar</em> by Vivek Shanbagh</li>
+        <li>Non-fiction &mdash; <em>Daily Rituals: Women at Work</em></li>
+        <li>Short stories &mdash; <em>Bogombo Snuff Box</em> by Kurt Vonnegut</li>
+      </ul>
+      <p class="topic-body">My fav. coffee table book in 2025: <em>The Making of Prince of Persia</em> by Jordan Mechner, the creator of this game and many others.</p>
+      <div class="topic-images single">
+        <img src="Hotspots_images/hotspot_reading.jpeg" alt="Reading">
       </div>
     </div>
 
-    <!-- Puzzles -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_puzzle.jpeg" alt="Puzzles">
-      <div class="topic-text">
-        <div class="topic-label">Puzzles</div>
-        <div class="topic-value">740 Puzzles</div>
-        <p class="topic-body">Solving puzzles helps me relax. Doing NYT puzzles with Akash became a breakfast ritual. We did 204 Wordles, 200 mini crosswords and several others. I did two physical puzzles, 500 piece each, which I solved manically. But building the F1 Ferrari Lego, even with an instruction manual, was undoubtedly absorbing! It was a 275 piece set and putting it together, observing how each piece was designed, and made to fit was highly intriguing and delightful.</p>
+      <div class="topic-label">Puzzles</div>
+      <div class="topic-value">740 Puzzles</div>
+      <p class="topic-body">Solving puzzles helps me relax. Doing NYT puzzles with Akash became a breakfast ritual. We did 204 Wordles, 200 mini crosswords and several others. I did two physical puzzles, 500 piece each, which I solved manically. But building the F1 Ferrari Lego, even with an instruction manual, was undoubtedly absorbing! It was a 275 piece set and putting it together, observing how each piece was designed, and made to fit was highly intriguing and delightful.</p>
+      <div class="topic-images">
+        <img src="Hotspots_images/hotspot_puzzle.jpeg" alt="Puzzles">
+        <img src="Hotspots_images/hotspot_puzzle_2.jpeg" alt="Puzzles">
       </div>
     </div>
 
@@ -595,43 +596,35 @@
   <div class="container">
     <div class="topics-header">Comfort of the Regulars</div>
 
-    <!-- Loved Ones -->
     <div class="topic">
-      <div class="topic-text">
-        <div class="topic-label">Loved Ones</div>
-        <div class="topic-value">104 Days</div>
-        <p class="topic-body">I am always more comfortable with family than friends. I also have very few friends. Hence made an effort to meet, stay and spend time with them, and build new bonds.</p>
+      <div class="topic-label">Loved Ones</div>
+      <div class="topic-value">90 Ds with Family, 28 Ds on Vacation, 14 Ds with Friends</div>
+      <p class="topic-body">I am always more comfortable with family than friends. I also have very few friends. Hence made an effort to meet, stay and spend time with them, and build new bonds.</p>
+      <p class="topic-body">Out of the 28 days spent on vacation &mdash; swimming in Koh Samui beaches, and travelling by train to Hampi, and exploring the ancient Vijaynagar ruins, were two unforgettable experiences.</p>
+      <div class="topic-images">
+        <img src="Hotspots_images/hotspot_vacation.jpeg" alt="Vacation">
+        <img src="Hotspots_images/hotspot_vacation_2.jpeg" alt="Vacation">
       </div>
     </div>
 
-    <!-- Vacation -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_vacation.jpeg" alt="Vacation">
-      <div class="topic-text">
-        <div class="topic-label">Vacation</div>
-        <div class="topic-value">28 Days</div>
-        <p class="topic-body">Out of the 28 days spent on vacation &mdash; swimming in Koh Samui beaches, and travelling by train to Hampi, and exploring the ancient Vijaynagar ruins, were two unforgettable experiences.</p>
+      <div class="topic-label">Walks with Akash</div>
+      <div class="topic-value">260 Days</div>
+      <p class="topic-body">A daily and cherished ritual, everyday, is to take a walk in the green-covered bylanes of Indiranagar with Akash. The most bizarre, whacky ideas, silly dreams, and day-to-day chores get assigned, dismissed, or debated about.</p>
+      <div class="topic-images">
+        <img src="Hotspots_images/hotspot_walkWithAkash.jpeg" alt="Walks with Akash">
+        <img src="Hotspots_images/hotspot_walkWithAkash_2.jpeg" alt="Walks with Akash">
       </div>
     </div>
 
-    <!-- Walks with Akash -->
     <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_walkWithAkash.jpeg" alt="Walks with Akash">
-      <div class="topic-text">
-        <div class="topic-label">Walks with Akash</div>
-        <div class="topic-value">260 Days</div>
-        <p class="topic-body">A daily and cherished ritual, everyday, is to take a walk in the green-covered bylanes of Indiranagar with Akash. The most bizarre, whacky ideas, silly dreams, and day-to-day chores get assigned, dismissed, or debated about.</p>
-      </div>
-    </div>
-
-    <!-- Day Job -->
-    <div class="topic">
-      <img class="topic-img" src="Hotspots_images/hotspot_dayJob.png" alt="Day Job">
-      <div class="topic-text">
-        <div class="topic-label">Day Job</div>
-        <div class="topic-value">220 Days</div>
-        <p class="topic-body">On some days, just the simple act of work where you &mdash; get up, meditate or stare at the wall, shower, get neatly dressed, eat breakfast, make your coffee, taste it and be wowed, go to office or sit at your desk, do work, with people you like, finish your to-do&rsquo;s &mdash; can make a wholesome good day. Just like a simple butter toast and a glass of good cold milk.</p>
-        <p class="topic-body">Presenting our data integration and platform roadmap to Clari&rsquo;s CTO, showcasing our work in Clari all-hands, and building Ask Clari were the key highlights.</p>
+      <div class="topic-label">Day Job</div>
+      <div class="topic-value">220 Days</div>
+      <p class="topic-body">On some days, just the simple act of work where you &mdash; get up, meditate or stare at the wall, shower, get neatly dressed, eat breakfast, make your coffee, taste it and be wowed, go to office or sit at your desk, do work, with people you like, finish your to-do&rsquo;s &mdash; can make a wholesome good day. Just like a simple butter toast and a glass of good cold milk.</p>
+      <p class="topic-body">Presenting our data integration and platform roadmap to Clari&rsquo;s CTO, showcasing our work in Clari all-hands, and building Ask Clari were the key highlights.</p>
+      <div class="topic-images">
+        <img src="Hotspots_images/hotspot_dayJob.png" alt="Day Job">
+        <img src="Hotspots_images/hotspot_dayJob_2.jpg" alt="Day Job">
       </div>
     </div>
 
@@ -639,10 +632,9 @@
 
   <div class="sep"></div>
 
-  <!-- ===== GESTALT / CLOSING ===== -->
   <div class="container">
     <div class="prose">
-      <p>In the next few years, I want these branches to grow longer and diversify, following my curiosities &mdash; untethered by the safety cover of life goals or objectives. New lines I haven&rsquo;t drawn yet, for things I haven&rsquo;t tried yet.</p>
+      <p>In the next few years, I want these branches to grow longer and diversify, following my curiosities &mdash; untethered by the safety cover of life goals or objectives.</p>
 
       <blockquote>
         To be liberated, dive toward doubt with great eagerness, given to be surprised. Or remain ossified, a safe distance from alive.
@@ -651,16 +643,11 @@
     </div>
   </div>
 
-  <!-- ===== FOOTER ===== -->
   <div class="footer">
     &mdash; 2025 &mdash;
   </div>
 
-  <!-- ===== JAVASCRIPT ===== -->
   <script>
-    // Hotspot positions for dataviz_2025_final.png
-    // bounds: [left%, top%, width%, height%]
-    // TODO: Recalibrate these using the calibration tool in year_in_review_interactive.html
     const hotspotData = [
       {
         id: 'day-job', name: 'Day Job', value: '220 Days',
@@ -683,12 +670,12 @@
         bounds: [33.4, 36.4, 10, 8]
       },
       {
-        id: 'writing', name: 'Writing', value: '74 Pages + 1 Blog',
+        id: 'writing', name: 'Writing', value: '74 Pages of Journal & 1 Published Blog',
         image: 'Hotspots_images/hotspot_writing.png',
         bounds: [64.8, 41.3, 10, 8]
       },
       {
-        id: 'loved-ones', name: 'Loved Ones', value: '104 Days',
+        id: 'loved-ones', name: 'Loved Ones', value: '90 Ds with Family, 14 Ds with Friends',
         bounds: [69.1, 52.6, 10, 8]
       },
       {
@@ -702,7 +689,7 @@
         bounds: [81.3, 67.1, 10, 8]
       },
       {
-        id: 'out-of-comfort', name: 'Out of Comfort', value: '4 Count',
+        id: 'out-of-comfort', name: 'Out of Comfort', value: '4 Activities',
         image: 'Hotspots_images/hotspot_outOfcomfort.jpeg',
         bounds: [35.8, 84.7, 10, 8]
       },
@@ -797,7 +784,6 @@
           activeTooltip = null;
         });
 
-        // Touch support
         hotspot.addEventListener('click', (e) => {
           e.stopPropagation();
           if (activeTooltip === tooltip && tooltip.classList.contains('visible')) {
